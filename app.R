@@ -56,12 +56,10 @@ ui <- dashboardPage(
               )
       ),     
       tabItem(tabName = "applogs",
-              mainPanel(
                 fluidPage(
                   tags$style(type = "text/css", ".content-wrapper {height: 1700px}"),
                   uiOutput("logs")
                 )
-              )
       ),
       tabItem(tabName = "users",
               fluidPage(
@@ -98,14 +96,14 @@ server <- shinyServer(function(input, output, session) {
   output$logs <- renderUI({
     plot_output_list <- lapply(1:len, function(i) {
       plotname <- paste0(dirs[i])
-        #fluidRow(
+        fluidRow (
           column(12,
             wellPanel(
               headerPanel(plotname),
               htmlOutput(plotname)
             )
           )
-        #)
+        )
     })
     tagList(plot_output_list)
   })
@@ -116,7 +114,7 @@ server <- shinyServer(function(input, output, session) {
     vaffel <- system( paste0("ls -tr ",logdir,dir,"* | tail -1" ), intern = TRUE)
     plotname <- paste0(dir)
     cat(vaffel)
-    output[[plotname]] <- logTail(session,paste0(vaffel), 20, 2000)
+    output[[plotname]] <- logTail(session,paste0(vaffel), 10, 2000)
   }
   
   # get the version and depends columns of installed.packages() into a dataframe
