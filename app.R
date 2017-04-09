@@ -16,7 +16,8 @@ ui <- dashboardPage(
       menuItem("Brugere", tabName = "users", icon = icon("user-o", lib="font-awesome")),
       menuItem("Netværk", tabName = "network", icon = icon("sitemap", lib="font-awesome")),
       menuItem("Shiny app logs", tabName = "applogs", icon = icon("file-text-o", lib="font-awesome")),
-      menuItem("Shiny og R pakker", tabName = "packages", icon = icon("gift", lib="font-awesome"))
+      menuItem("Shiny og R pakker", tabName = "packages", icon = icon("gift", lib="font-awesome")),
+      menuItem("System statistik", tabName = "sysstat", icon = icon("line-chart", lib="font-awesome"))
     )
   ),  
   
@@ -47,8 +48,8 @@ ui <- dashboardPage(
                          headerPanel("Nginx version"),wellPanel(verbatimTextOutput("nginxver"))
                   ),
                   column(6,headerPanel("Partitioner"),wellPanel(verbatimTextOutput("df"))),
-                  column(6,headerPanel("RAM og swap"),wellPanel(verbatimTextOutput("mem"))),
                   column(6,headerPanel("Ubuntu version"),wellPanel(verbatimTextOutput("lsb"))),
+                  column(6,headerPanel("RAM og swap"),wellPanel(verbatimTextOutput("mem"))),
                   column(6,headerPanel("Shiny-server version"),wellPanel(verbatimTextOutput("shinysrv"))),
                   column(6,headerPanel("R version"),wellPanel(verbatimTextOutput("rversion")))
                 )
@@ -144,7 +145,7 @@ server <- shinyServer(function(input, output, session) {
   output$lsof <- runCmd(session,"lsof -i tcp","all",5000)
   output$df <- runCmd(session,"df -h","all",5000)
   output$lsb <- runCmd(session,"lsb_release -a 2>/dev/null",6,50000)
-  output$nginxver <- runCmd(session,"nginx -v","all",50000)
+  output$nginxver <- runCmd(session,"/usr/sbin/nginx -v 2>&1","all",50000)
   output$shinysrv <- runCmd(session,"apt-cache showpkg shiny-server","all",50000)
   output$packages1 <- renderTable(firsthalf,include.rownames=FALSE)
   output$packages2 <- renderTable(secondhalf,include.rownames=FALSE)
