@@ -96,26 +96,20 @@ server <- shinyServer(function(input, output, session) {
   len <- length(dirs)
   
   output$logs <- renderUI({
-    
-    # flowLayout for the dynamically created elements. See:
-    # http://stackoverflow.com/questions/39067679/how-do-i-make-dynamically-created-inputs-in-r-shiny-flow-like-normal-inputs-in-f
     plot_output_list <- lapply(1:len, function(i) {
       plotname <- paste0(dirs[i])
-      UI <- paste0("column(4,
-                   wellPanel(
-                   headerPanel("," plotname ", "),
-                   htmlOutput("," plotname ", ")
-                   )
-      )",
-                   collapse = ", ")
-      #print(UI)
-      eval(parse(text = UI))
+        #fluidRow(
+          column(12,
+            wellPanel(
+              headerPanel(plotname),
+              htmlOutput(plotname)
+            )
+          )
+        #)
     })
-    
     tagList(plot_output_list)
-    
   })
-  
+ 
   logdir <- "/var/log/shiny-server/"
   
   foreach(dir=dirs) %do% {
