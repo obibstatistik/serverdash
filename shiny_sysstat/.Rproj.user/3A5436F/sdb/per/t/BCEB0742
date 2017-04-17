@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "library(shiny)\n\n# To be called from ui.R\nlineChartOutput <- function(inputId, width=\"100%\", height=\"900px\") {\n  style <- sprintf(\"width: %s; height: %s;\",\n                   validateCssUnit(width), validateCssUnit(height))\n  \n  tagList(\n    # Include CSS/JS dependencies. Use \"singleton\" to make sure that even\n    # if multiple lineChartOutputs are used in the same page, we'll still\n    # only include these chunks once.\n    singleton(tags$head(\n      tags$script(src=\"d3/d3.v3.min.js\"),\n      tags$script(src=\"nvd3/nv.d3.min.js\"),\n      tags$link(rel=\"stylesheet\", type=\"text/css\", href=\"nvd3/nv.d3.min.css\"),\n      tags$script(src=\"linechart-binding.js\")\n    )),\n    div(id=inputId, class=\"nvd3-linechart\", style=style,\n        tag(\"svg\", list())\n    )\n  )\n}\n\n# To be called from server.R\nrenderLineChart <- function(expr, env=parent.frame(), quoted=FALSE) {\n  # This piece of boilerplate converts the expression `expr` into a\n  # function called `func`. It's needed for the RStudio IDE's built-in\n  # debugger to work properly on the expression.\n  installExprFunction(expr, \"func\", env, quoted)\n  \n  function() {\n    dataframe <- func()\n    \n    mapply(function(col, name) {\n      \n      values <- mapply(function(val, i) {\n        list(x = i, y = val)\n      }, col, 1:nrow(dataframe), SIMPLIFY=FALSE, USE.NAMES=FALSE)\n      \n      list(key = name, values = values)\n      \n    }, dataframe, names(dataframe), SIMPLIFY=FALSE, USE.NAMES=FALSE)\n  }\n}\n\n\n# Data frame or list looks like:\n# \n# {\n#   \"Series A\": [1,2,3,4,5],\n#   \"Series B\": [6,7,8,9,10]\n# }\n# \n# D3 expects:\n# \n# [\n#   {\n#     key: \"Series A\",\n#     values: [{x:1,y:1}, {x:2,y:2}, {x:3,y:3}, {x:4,y:4}, {x:5,y:5}]\n#   },\n#   {\n#     key: \"Series B\",\n#     values: [{x:1,y:6}, {x:2,y:7}, {x:3,y:8}, {x:4,y:9}, {x:5,y:10}]\n#   }\n# ]\ndataFrameToD3 <- function(df=cars) {\n  \n}",
+    "created" : 1491815528116.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3248594170",
+    "id" : "BCEB0742",
+    "lastKnownWriteTime" : 1491968016,
+    "last_content_update" : 1491968016486,
+    "path" : "~/shiny_projekter/shiny_sysstat/linechart.R",
+    "project_path" : "linechart.R",
+    "properties" : {
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

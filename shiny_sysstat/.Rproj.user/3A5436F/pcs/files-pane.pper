@@ -1,0 +1,9 @@
+{
+    "path" : "~/shiny_projekter/shiny_sysstat/www",
+    "sortOrder" : [
+        {
+            "ascending" : true,
+            "columnIndex" : 2
+        }
+    ]
+}

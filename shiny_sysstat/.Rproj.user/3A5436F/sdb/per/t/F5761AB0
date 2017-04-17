@@ -1,0 +1,29 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1491848604940.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "F5761AB0",
+    "lastKnownWriteTime" : 3834019243018428978,
+    "last_content_update" : 1491848604940,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "A3157540",
+        "caption" : "av1vec",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=av1vec&cache_key=A3157540",
+        "displayedObservations" : 380,
+        "environment" : "",
+        "object" : "av1vec",
+        "preview" : 0,
+        "totalObservations" : 380,
+        "variables" : 1
+    },
+    "relative_order" : 8,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}

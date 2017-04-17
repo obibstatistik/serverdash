@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "library('dplyr')\n#library('magrittr')\nlibrary('shiny')\n#library('shinyjs')\n\nsource(\"linechart.R\")\n\n# TODO: todays load averages in 3 layered graphs using f <- system(\"sadf -d -T /var/log/sysstat/sa10 -- -q | grep $(hostname) | grep -v RESTART\", intern =  TRUE)\n#       log mem each minute with free, to get the available column (not in sar since it's some algorithmic estimate) and use here\n#       nics with i/o of each. In kb/s\n#       also, disk-usage\n\nui <- fluidPage(\n  fluidRow(\n    column(width=9,\n           lineChartOutput(\"mychart\")\n    )\n  )\n)\n\nserver <- function(input, output, session) {\n\n  output$mychart <- renderLineChart({\n    \n    f <- system(\"sadf -d -T /var/log/sysstat/sa10 -- -q | grep $(hostname) | grep -v RESTART | sed s/\\\\,/\\\\./g\", intern =  TRUE)\n    f <- read.table(text=f,sep = \";\")\n    names(f) <- c(\"hostname\",\"interval\",\"timestamp\",\"runqsz\",\"plistsz\",\"ldavg1\",\"ldavg5\",\"ldavg15\",\"blocked\")\n    f <- select(f,6:8)\n    #rownames(f) <- f[, -1]\n    f\n    # Return a data frame. Each column will be a series in the line chart.\n  #  data.frame(\n  #    \"ldavg-1\" = 24,\n  #    \"ldavg-5\" = 0.5 * cos(1:100/10),\n  #    \"ldavg-15\" = sin(1:100/10) * 0.25 + 0.5\n  #  )\n  })\n}\n\nshinyApp(ui = ui, server = server)",
+    "created" : 1491814356331.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3287162246",
+    "id" : "5EE829AD",
+    "lastKnownWriteTime" : 1491968758,
+    "last_content_update" : 1491968758468,
+    "path" : "~/shiny_projekter/shiny_sysstat/app.R",
+    "project_path" : "app.R",
+    "properties" : {
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "require(dplyr)\nrequire(quantmod)\n\ngetSymbols(\"DJIA\", src = \"FRED\")\n\nroc <- na.omit(merge(ROC(DJIA,n=1),ROC(DJIA,n=250)))\n\nrequire(rCharts)\nrequire(latticeExtra)\nrequire(directlabels)\n\nroc.df <- reshape2::melt(\n  data.frame(\n    date = as.Date(index(roc[\"1986::1987\",])),\n    ROC_1day = roc[\"1986::1987\",1,drop=T],\n    ROC_1year = roc[\"1986::1987\",2,drop=T]\n  )\n  ,id.vars = 1\n  , variable.name = \"period\"\n  , value.name = \"roc\"\n)\n\n#draw a traditional lattice plot\ndirect.label(asTheEconomist(\n  xyplot(roc~date,groups=period,data=roc.df,type=\"l\"\n         #       ,auto.key=TRUE\n         \n         ,main=\"Dow Jones Industrial Average (source: St. Louis Federal Reserve (FRED) )\"\n  )\n),method=\"last.points\")\n\n#draw an interactive dimple chart\nroc.df$date <- format(roc.df$date)\nd1 <- dPlot(\n  roc ~ date\n  ,groups = \"period\"\n  ,data = roc.df\n  ,type = \"line\"\n  ,height = 400\n  ,width = 700\n  ,bounds = list(x = 80, y = 70, width = 600 , height = 250)\n  #,legend = list(x = , y = , width = , height = )\n)\nd1$xAxis(\n  type = \"addTimeAxis\",\n  inputFormat = \"%Y-%m-%d\",\n  outputFormat = \"%Y-%m-%d\"\n)\nd1$yAxis(\n  outputFormat = \".2%f\"\n)\nd1$set(\n  defaultColors = latticeExtra::theEconomist.theme()$superpose.line$col[c(1,4)]\n)\nd1$setTemplate(\n  afterScript = \n    '\n<script>\n    //get fewer ticks on x axis\n    //this is a dimple issue that might or might not get fixed\n    myChart.svg.select(\".axis\").selectAll(\".tick\")[0].forEach(function(d,i){\n          if (!(+d3.time.format(\"%m\")(new Date(+d3.select(d).datum())) % 3 == 1)) {\n            d.remove()\n          } else {\n            var dtext = d3.select(d).selectAll(\"text\");\n            dtext\n              .text(d3.time.format(\"%b %Y\")(new Date(dtext.text())))\n              .attr(\"transform\",\"none\")\n              .attr(\"y\",12)\n              .style(\"text-anchor\",\"middle\");\n          }\n        });\n\n    //remove x axis label\n    myChart.axes[0].titleShape.remove()\n\n    myChart.svg.append(\"text\")\n        .attr(\"id\",\"charttitle\")\n        .attr(\"x\", 0)\n        .attr(\"y\", 30)\n        .text(\"Dow Jones Industrial Average (source: St. Louis Federal Reserve (FRED) )\")\n        .style(\"text-anchor\",\"beginning\")\n        .style(\"font-size\",\"16px\")\n        .style(\"font-family\",\"sans-serif\")\n</script>\n'    \n)\nd1\n",
+    "created" : 1491907661937.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3340651723",
+    "id" : "3E552D0F",
+    "lastKnownWriteTime" : 1491907855,
+    "last_content_update" : 1491907855695,
+    "path" : "~/shiny_projekter/shiny_sysstat/code.R",
+    "project_path" : "code.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 9,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "rm(list = ls())\nlibrary(shiny)\nlibrary(rCharts)\n\nui =pageWithSidebar(\n  headerPanel(\"Test\"),\n  \n  sidebarPanel(),\n  mainPanel(\n    showOutput(\"SectorCharting\", \"nvd3\")\n  )\n)\n\n\nserver = function(input, output) {\n  \n  output$SectorCharting <-renderChart2({\n    hair_eye_male <- subset(as.data.frame(HairEyeColor), Sex == \"Male\")\n    n1 <- nPlot(Freq ~ Hair, group = \"Eye\", data = hair_eye_male, \n                type = 'multiBarChart')\n    return(n1)\n  })\n}\n\n\nrunApp(list(ui = ui, server = server))",
+    "created" : 1491954695313.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3742267844",
+    "id" : "BD799F27",
+    "lastKnownWriteTime" : 1491954708,
+    "last_content_update" : 1491954708995,
+    "path" : "~/shiny_projekter/shiny_sysstat/nvd3igen.R",
+    "project_path" : "nvd3igen.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 11,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
