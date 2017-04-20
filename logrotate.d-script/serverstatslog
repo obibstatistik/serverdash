@@ -1,0 +1,10 @@
+# Place this script in /etc/logrotate.d/
+/var/log/serverstats/serverstats.log {
+        daily 
+        copytruncate
+        rotate 30  
+        compress
+        #postrotate
+        #       /home/bala/myscript.sh
+        #endscript
+}
